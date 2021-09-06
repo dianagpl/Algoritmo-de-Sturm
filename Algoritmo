@@ -1,0 +1,73 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Fri Sep  3 11:28:58 2021
+
+@author: uriel
+"""
+
+def derivar(polinomio):
+    derivada=[0]
+    n=len(polinomio)
+    for i in range (1,n):
+        derivada.append(polinomio[n-i]*(n-i))
+    derivada.reverse()
+    return derivada
+       
+
+def grado(pol):
+    n=len(pol)-1
+    grado=n
+    for i in range (0,n+1):
+        k=n-i
+        if pol[k]!=0:
+            break;
+        grado-=1
+    return grado
+
+def div(pn,pN):
+    cociente=[0 for i in range (grado(pN)+1)]
+    dividendo=pN
+    divisor=pn
+    
+    while grado(dividendo)>=grado(divisor):
+        residuo = [0 for i in range (grado(pN)+1)]
+        
+        
+        cociente[grado(dividendo)-grado(divisor)]=dividendo[grado(dividendo)]/divisor[grado(divisor)]
+        
+        
+        for i in range (0,grado(dividendo)+1):
+            k=grado(dividendo)-i
+            residuo[k]=dividendo[k]-divisor[grado(divisor)-i]*cociente[k+i-grado(divisor)]
+        dividendo=residuo
+    
+     
+    return residuo
+
+# def nraices(pol):
+#     p_0=pol
+#     p1=derivar(p_0)
+#     for i in range (100):
+#         pn=prod(div(p_0, p1))
+#         # paux=pn
+#         if grado(pn)==1:
+#             break
+#         p_0=p1
+#         p1=pn
+        
+    
+#     return p1
+
+
+def prod(lista):
+    n=len(lista)-1
+    for i in range(n):
+        lista[i]*=(-1)
+    return lista
+
+p0=[-2,1,0,-4,0,0,1]
+d=nraices(p0)
+# p1=derivar(p0)
+# p2=prod(div(p1,p0))
+# print("P3 :\n")
+# p3= prod(div(p2,p1))
