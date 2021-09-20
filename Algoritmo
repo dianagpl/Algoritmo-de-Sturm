@@ -25,18 +25,19 @@ def grado(pol):
     return grado
 
 def div(pn,pN):
-    cociente=[0 for i in range (grado(pN)+1)]
     dividendo=pN
     divisor=pn
-    
+    cociente=[0 for i in range (grado(pN)+1)]
+    residuo = [0 for i in range (grado(pN)+1)]
     while grado(dividendo)>=grado(divisor):
         residuo = [0 for i in range (grado(pN)+1)]
-        
-        
+        # print (divisor)
+        # if divisor[grado(divisor)] != 0:
         cociente[grado(dividendo)-grado(divisor)]=dividendo[grado(dividendo)]/divisor[grado(divisor)]
+        # else:
+        #     print (divisor)
         
-        
-        for i in range (0,grado(dividendo)+1):
+        for i in range (0,grado(pN)+1):
             k=grado(dividendo)-i
             residuo[k]=dividendo[k]-divisor[grado(divisor)-i]*cociente[k+i-grado(divisor)]
         dividendo=residuo
@@ -44,30 +45,34 @@ def div(pn,pN):
      
     return residuo
 
-# def nraices(pol):
-#     p_0=pol
-#     p1=derivar(p_0)
-#     for i in range (100):
-#         pn=prod(div(p_0, p1))
-#         # paux=pn
-#         if grado(pn)==1:
-#             break
-#         p_0=p1
-#         p1=pn
-        
-    
-#     return p1
+
 
 
 def prod(lista):
     n=len(lista)-1
     for i in range(n):
-        lista[i]*=(-1)
+        if lista[i]!=0:
+            lista[i]*=(-1)
     return lista
 
+def division(a,b):
+    return prod(div(a,b))
+
+def raices( pol):
+    p_2=derivar(pol)
+    p_1=pol 
+    p_r=pol
+    # contador=1
+    cadenas=[pol]
+    while grado(p_r)!=0:
+        p_r=division(p_2, p_1)
+        cadenas.append(p_r)
+        print (p_r)
+        p_1=p_2
+        p_2=p_r
+        
+    return cadenas
+
 p0=[-2,1,0,-4,0,0,1]
-d=nraices(p0)
-# p1=derivar(p0)
-# p2=prod(div(p1,p0))
-# print("P3 :\n")
-# p3= prod(div(p2,p1))
+d=raices(p0)
+
