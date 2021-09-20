@@ -5,7 +5,7 @@ Created on Fri Sep  3 11:28:58 2021
 @author: uriel
 """
 
-def derivar(polinomio):
+def derivar(polinomio): #Esta funcion deriva un polinomio, y te regresa una lista con su derivada
     derivada=[0]
     n=len(polinomio)
     for i in range (1,n):
@@ -14,7 +14,7 @@ def derivar(polinomio):
     return derivada
        
 
-def grado(pol):
+def grado(pol): #Determina el grado del polinomio
     n=len(pol)-1
     grado=n
     for i in range (0,n+1):
@@ -24,7 +24,7 @@ def grado(pol):
         grado-=1
     return grado
 
-def div(pn,pN):
+def div(pn,pN): #Realiza la división sintetica entre dos polinomios y devuelve el residuo
     dividendo=pN
     divisor=pn
     cociente=[0 for i in range (grado(pN)+1)]
@@ -48,17 +48,17 @@ def div(pn,pN):
 
 
 
-def prod(lista):
+def prod(lista): #Cambia el signo de los elementeos de una lista (lo hice a parte de la division)
     n=len(lista)-1
     for i in range(n):
         if lista[i]!=0:
             lista[i]*=(-1)
     return lista
 
-def division(a,b):
+def division(a,b): #Divide los polinomios y le cambia el signo a los elementos del residuo
     return prod(div(a,b))
 
-def raices( pol):
+def raices( pol): #Guarda todas las cadenas de sturm un una lista
     p_2=derivar(pol)
     p_1=pol 
     p_r=pol
