@@ -1,0 +1,132 @@
+def derivar(polinomio):
+#def derivar(polinomio): Esta funcion deriva un polinomio, y te regresa una lista con su derivada
+    derivada=[0]
+    n=len(polinomio)
+    for i in range (1,n):
+        derivada.append(polinomio[n-i]*(n-i))
+    derivada.reverse()
+    return derivada
+       
+
+def grado(pol):
+#def grado(pol): Determina el grado del polinomio
+    n=len(pol)-1
+    grado=n
+    for i in range (0,n+1):
+        k=n-i
+        if pol[k]!=0:
+            break;
+        grado-=1
+    return grado
+
+def div(pn,pN):
+#def div(pn,pN): Realiza la división sintetica entre dos polinomios y devuelve el residuo
+    dividendo=pN
+    divisor=pn
+    cociente=[0 for i in range (grado(pN)+1)]
+    residuo = [0 for i in range (grado(pN)+1)]
+    while grado(dividendo)>=grado(divisor):
+        residuo = [0 for i in range (grado(pN)+1)]
+        # print (divisor)
+        # if divisor[grado(divisor)] != 0:
+        cociente[grado(dividendo)-grado(divisor)]=dividendo[grado(dividendo)]/divisor[grado(divisor)]
+        # else:
+        #     print (divisor)
+        
+        for i in range (0,grado(pN)+1):
+            k=grado(dividendo)-i
+            residuo[k]=dividendo[k]-divisor[grado(divisor)-i]*cociente[k+i-grado(divisor)]
+        dividendo=residuo
+    
+     
+    return residuo
+
+
+
+
+def prod(lista):
+#def prod(lista): Cambia el signo de los elementeos de una lista (lo hice a parte de la division)
+    n=len(lista)-1
+    for i in range(n):
+        if lista[i]!=0:
+            lista[i]*=(-1)
+    return lista
+
+def division(a,b):
+#def division(a,b): Divide los polinomios y le cambia el signo a los elementos del residuo
+    return prod(div(a,b))
+
+def raices( pol):
+#def raices( pol): Guarda todas las cadenas de sturm un una lista
+    p_2=derivar(pol)
+    p_1=pol 
+    p_r=pol
+    # contador=1
+    cadenas=[pol]
+    while grado(p_r)!=0:
+        p_r=division(p_2, p_1)
+        cadenas.append(p_r)
+        #print (p_r)
+        p_1=p_2
+        p_2=p_r
+        
+    return cadenas
+
+    
+
+p0=[-2,1,0,-4,0,0,1]
+d=raices(p0)
+#print (d)
+
+p0=d[0]
+pd= derivar(p0)
+p1=d[1]
+p2=d[2]
+p3=d[3]
+p4=d[4]
+z=-2
+w=2
+
+
+def evaluacion(a, z, w):
+    x=0
+    x_1=0
+    a.reverse()
+    for i in range (0, len(a)):
+        x=x*z+a[i]
+        x_1=x_1*w+a[i]
+    return x, x_1
+
+
+a=evaluacion(p0, -2, 2)
+b=evaluacion(pd, -2, 2)
+c=evaluacion(p1, -2, 2)
+d=evaluacion(p2, -2, 2)
+e=evaluacion(p3, -2, 2)
+f=evaluacion(p4, -2, 2)
+
+def ceros(a, b):
+    cs=[0,0]
+    #n=len(a)
+    for i in range (0, len(a)):
+        if a[i]>0:
+            if b[i]<0:
+                cs[i]=cs[i]+1
+            if b[i]>0:
+                cs[i]=cs[i]
+        if a[i]<0:
+            if b[0]>0:
+                cs[0]=cs[0]+1
+            if b[i]<0:
+                cs[i]=cs[i]
+    return cs
+
+a=[(ceros(a,b)),(ceros(b,c)), (ceros(c,d)), (ceros(d,e)), (ceros(e,f))]
+
+sumaColumnas = lambda a: [sum(i) for i in zip(*a)]
+#print(sumaColumnas(a)) 
+
+b=sumaColumnas(a)
+raices=b[0]-b[1]
+print("El número total de raíces que tiene el polinomio es:")
+print(raices)
